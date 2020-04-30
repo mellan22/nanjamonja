@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta chaeset="utf-8">
+    <title>playingNanjamonja</title>
+    <meta name="viewport" content="width-device-width">
+    <link rel="stylesheet" href="css/style.css">
+    <script src='js/jquery.min.js'> </script>
+    <script type="text/javascript" src="js/main.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>(re)name masterpiece</h1>
+        </header>
+        <div class="content">
+            <section class="game">
+                <div class="playground">
+                    <img src="img/1.jpg" id="picture" alt="picture">
+                </div>
+                <div class="newname">
+                    <p>新しい名前をつけよう！</p>
+                    <input id="picturename" type="text" name="picturename">
+                    <button type='submit'>きめた！</button>
+                </div>
+                <div class="eachresult">
+                    <p>今回の勝者</p>
+                    <input id='thistimeWinner' type="text">
+                    <input id="thistimeWinner" type="submit">
+                    <input id="draw" type="submit" name="draw">
+                </div>
+            </section>
+            <section class="score">
+                <table>
+                    <tr>
+                        <th>name1</th>
+                        <th>name2</th>
+                        <th>name3</th>
+                        <th>name4</th>
+                    </tr>
+                    <tr>
+                        <td>score1</td>
+                        <td>score2</td>
+                        <td>score3</td>
+                        <td>score4</td>
+                    </tr>
+                </table>
+            </section>
+        </div>
+        <script>
+            let pic_dict = {}
+            window.onload = function () {
+                for (let n = 0; n < 11; n++) {
+                    pic_dict[n] = 0
+                }
+                console.log(pic_dict)
+                var players = ["tama", "pochi", "gon", "hachi"];
+                var thData = "";
+                for (i = 0; i < players.length; i++) {
+                    thData += "<th>" + players[i] + "</th>"
+                }
+                thdata = "<th>" + thData + "</tr>"
+                $(".score table").html(thData);
+            }
+            $("#picture").click(function () {
+                show_pic()
+            });
+            var show_pic = function () {
+                //辞書がからのときは結果画面に遷移
+                if (!Object.keys(pic_dict).length) {
+                    return
+                }
+                var random = Math.floor(Math.random() * 9);
+                //キーに存在しない時はもういちど実行
+                if (!!pic_dict[random]) {
+                    setInterval(show_pic, 10);
+                    return
+                }
+                //5回表示した画像の場合はキーから削除してもういちど実行
+                if (pic_dict[random] == 5) {
+                    delete pic_dict[random]
+                    setInterval(show_pic, 10);
+                    return
+                }
+                pic_dict[random] += 1
+                img_src = "img/" + random + ".jpg"
+                console.log(pic_dict)
+                $('.playground').children('img').attr('src', img_src)
+            }
+        </script>
+</body>
+
+<footer>
+    &copy; 2019 SHIO
+</footer>
+
+</html>
